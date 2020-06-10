@@ -63,8 +63,6 @@ resource "aws_route_table" "private" {
   tags = "${merge(map("Name", (var.single_nat_gateway ? "${var.name}-private" : format("%s-private-%s", var.name, element(var.azs, count.index)))), var.private_route_table_tags, var.tags)}"
 
   lifecycle {
-    # When attaching VPN gateways it is common to define aws_vpn_gateway_route_propagation
-    # resources that manipulate the attributes of the routing table (typically for the private subnets)
     ignore_changes = ["propagating_vgws"]
   }
 }
